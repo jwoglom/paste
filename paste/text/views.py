@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from paste.text.models import Author, Paste
 import hashlib
@@ -49,5 +50,10 @@ def edit_view(request, paste_id):
     return render(request, "view.html", {
         "request": request,
         "paste": Paste.objects.get(identifier=paste_id),
-        "ok": ('confirm' in request.POST)
+        "ok": ('confirm' in request.POST),
+        "edit": ('e/' in request.path)
     })
+
+def raw_view(request, paste_id, mime=None):
+    return HttpResponse(Paste.objects.get(identifier=paste_id).contents,
+                        mimetype=mime if mime is not None else request.GET.get('mime', 'text/plain'))

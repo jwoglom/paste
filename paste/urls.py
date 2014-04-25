@@ -11,6 +11,8 @@ urlpatterns = patterns('',
 
     url(r'^$', text.add_view),
     url(r'^p/(.*)/$', text.edit_view),
-
+    url(r'^e/(.*)/$', text.edit_view),
+    url(r'^r/(.*)/$', text.raw_view),
+    url(r'^d/(.*)/$', text.raw_view, {'mime': 'application/octet-stream'}),
     url(r'^admin/', include(admin.site.urls)),
 )
