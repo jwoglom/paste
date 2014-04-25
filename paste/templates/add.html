@@ -1,21 +1,22 @@
 {% extends "base.html" %}
 {% block css %}
-{{ block.super }}
-<link rel="stylesheet" type="text/css" href="/static/form.css" />
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="/static/form.css" />
 {% endblock %}
 {% block js %}
 <script type="text/javascript">
-window.onload = function() { document.querySelector('.title').focus(); }
+    window.onload = function() { document.querySelector('.title').focus(); }
 </script>
 {% endblock %}
 {% block main %}
 <form action="/" method="post">
-{% csrf_token %}
-<input type='hidden' name='confirm' value='1' />
-<input class="title" type="text" name="title" placeholder="" value="" />
-<textarea class="contents" name="contents" placeholder="code"></textarea>
-<div class="bottom">
-<input type="text" class="author" name="author" placeholder="author" value="" />
-<input type="submit" class="add" value="Add" />
+    {% csrf_token %}
+    <input type='hidden' name='confirm' value='1' />
+    <input class="title" type="text" name="title" placeholder="" value="" />
+    <textarea class="contents" name="contents" placeholder="code"></textarea>
+    <div class="bottom">
+        <input type="text" class="author" name="author" placeholder="author" value="" />
+        <input type="submit" class="add" value="Add" />
+    </div>
 </form>
 {% endblock %}
