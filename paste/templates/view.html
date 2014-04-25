@@ -2,11 +2,32 @@
 {% block css %}
 {{ block.super }}
 <link rel="stylesheet" type="text/css" href="/static/form.css" />
-{% endblock %}
-{% block js %}
+{% if not edit %}
+<link rel="stylesheet" type="text/css" href="/static/highlightjs/tomorrow-night.css" />
+<script type="text/javascript" src="/static/highlightjs/highlight.pack.js"></script>
+<script type="text/javascript">
+  hljs.configure({tabReplace: '    '});
+  hljs.initHighlightingOnLoad();
+</script>
+<style type="text/css">
+.title-container {
+    position: fixed;
+    top: 0;
+    background: #f0f0f0;
+    padding-top: 8px;
+}
+pre {
+    margin-top: 60px;
+}
+body {
+    overflow-y: hidden;
+}
+</style>
+{% else %}
 <script type="text/javascript">
 window.onload = function() { document.querySelector('.title').focus(); }
 </script>
+{% endif %}
 {% endblock %}
 {% block main %}
 <form action="/p/{{ paste.identifier }}/" method="post">
@@ -16,10 +37,14 @@ window.onload = function() { document.querySelector('.title').focus(); }
 <script>setTimeout(function(){document.querySelector('.notify').style.display='none';},2500)</script>
 {% endif %}
 <input type='hidden' name='confirm' value='1' />
-<input class="title" type="text" name="title" placeholder="" value="{{ paste.title }}" />
-<textarea class="contents" name="contents" placeholder="code">{{ paste.contents }}</textarea>
+<div class="title-container">
+<input class="title" type="text" name="title" placeholder="" value="{{ paste.title }}" {% if not edit %} disabled readonly{% endif %}/>
+</div>
+<{% if edit %}textarea{% else %}pre><code{% endif %} class="contents" name="contents" placeholder="code">{{ paste.contents }}</{% if edit %}textarea{% else %}code></pre{% endif %}>
+{% if edit %}
 <div class="bottom">
 <input type="text" class="author" name="author" placeholder="author" value="{{ paste.author.name }}" />
 <input type="submit" class="add" value="Add" />
+{% endif %}
 </form>
 {% endblock %}
