@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="/static/form.css" />
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+window.onload = function() { document.querySelector('.title').focus(); }
+</script>
+{% endblock %}
+{% block main %}
+<form action="/p/{{ paste.identifier }}/" method="post">
+{% csrf_token %}
+{% if ok %}
+<span class="notify">Saved successfully.</span>
+<script>setTimeout(function(){document.querySelector('.notify').style.display='none';},2500)</script>
+{% endif %}
+<input type='hidden' name='confirm' value='1' />
+<input class="title" type="text" name="title" placeholder="" value="{{ paste.title }}" />
+<textarea class="contents" name="contents" placeholder="code">{{ paste.contents }}</textarea>
+<div class="bottom">
+<input type="text" class="author" name="author" placeholder="author" value="{{ paste.author.name }}" />
+<input type="submit" class="add" value="Add" />
+</form>
+{% endblock %}
